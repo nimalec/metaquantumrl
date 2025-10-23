@@ -16,6 +16,7 @@ from jax import jit
 
 def state_fidelity(rho: np.ndarray, sigma: np.ndarray) -> float:
     """
+    Good. 
     Compute quantum state fidelity F(ρ, σ) = [tr(√(√ρ σ √ρ))]².
     
     For pure states: F = |⟨ψ|φ⟩|²
@@ -35,6 +36,7 @@ def state_fidelity(rho: np.ndarray, sigma: np.ndarray) -> float:
 
 def process_fidelity_choi(Phi_choi: np.ndarray, Psi_choi: np.ndarray) -> float:
     """
+    Good. 
     Process fidelity via Choi matrices:
     F(Φ, Ψ) = tr(Φ† Ψ) / d²
     
@@ -52,6 +54,7 @@ def process_fidelity_choi(Phi_choi: np.ndarray, Psi_choi: np.ndarray) -> float:
 
 def average_gate_fidelity(rho_final: np.ndarray, rho_target: np.ndarray) -> float:
     """
+    Good.
     Average gate fidelity (averaged over pure input states on Bloch sphere).
     
     For single qubit: F_avg = (2F + 1) / 3 where F is state fidelity
@@ -72,6 +75,7 @@ def average_gate_fidelity(rho_final: np.ndarray, rho_target: np.ndarray) -> floa
 
 def gate_infidelity(rho_final: np.ndarray, rho_target: np.ndarray) -> float:
     """
+    Good. 
     Gate infidelity: 1 - F(ρ_final, ρ_target).
     This is what we minimize in training.
     """
@@ -92,7 +96,9 @@ def diamond_norm_distance(Phi_choi: np.ndarray, Psi_choi: np.ndarray) -> float:
 
 
 class GateFidelityComputer:
-    """Unified interface for computing various fidelity measures."""
+    """Unified interface for computing various fidelity measures.
+    Good. 
+    """
     
     def __init__(
         self,
@@ -119,6 +125,7 @@ class GateFidelityComputer:
     
     def compute(self, rho_final: np.ndarray) -> float:
         """
+        Good. 
         Compute fidelity between achieved state and target.
         
         Args:
@@ -136,6 +143,7 @@ class GateFidelityComputer:
     
     def compute_from_unitary(self, U_achieved: np.ndarray, rho_init: np.ndarray) -> float:
         """
+        Good. 
         Compute fidelity given achieved unitary and initial state.
         
         Args:
@@ -149,7 +157,9 @@ class GateFidelityComputer:
         return self.compute(rho_final)
     
     def _unitary_to_choi(self, U: np.ndarray) -> np.ndarray:
-        """Convert unitary to Choi matrix."""
+        """
+        Good. 
+        Convert unitary to Choi matrix."""
         d = U.shape[0]
         # Choi matrix: sum_ij |i⟩⟨j| ⊗ U|i⟩⟨j|U†
         choi = np.zeros((d**2, d**2), dtype=complex)
@@ -169,7 +179,9 @@ class GateFidelityComputer:
 
 
 class TargetGates:
-    """Standard quantum gates for benchmarking."""
+    """
+    Good. 
+    Standard quantum gates for benchmarking."""
     
     @staticmethod
     def pauli_x() -> np.ndarray:
@@ -223,6 +235,7 @@ class TargetGates:
     @staticmethod
     def arbitrary_unitary(alpha: float, beta: float, gamma: float) -> np.ndarray:
         """
+        Good. 
         Arbitrary single-qubit unitary via Euler angles.
         U = Rz(γ) Ry(β) Rz(α)
         """
@@ -235,7 +248,8 @@ class TargetGates:
 # JAX versions for fast autodiff
 @jit
 def state_fidelity_jax(rho: jnp.ndarray, sigma: jnp.ndarray) -> float:
-    """JAX implementation of state fidelity."""
+    """Good. 
+    JAX implementation of state fidelity."""
     # Simplified for pure states or use iterative sqrtm
     # For now, assume pure states: F = |tr(ρσ)|
     return jnp.abs(jnp.trace(rho @ sigma)) ** 2
@@ -243,7 +257,8 @@ def state_fidelity_jax(rho: jnp.ndarray, sigma: jnp.ndarray) -> float:
 
 @jit
 def gate_infidelity_jax(rho_final: jnp.ndarray, rho_target: jnp.ndarray) -> float:
-    """JAX gate infidelity for gradient computation."""
+    """Good. 
+    JAX gate infidelity for gradient computation."""
     fidelity = state_fidelity_jax(rho_final, rho_target)
     return 1.0 - fidelity
 

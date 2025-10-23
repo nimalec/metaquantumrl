@@ -266,6 +266,7 @@ def gate_infidelity_jax(rho_final: jnp.ndarray, rho_target: jnp.ndarray) -> floa
 # Example usage
 if __name__ == "__main__":
     # Test fidelity computation
+    ##Try running this...should work  fine. 
     print("Testing fidelity measures...")
     
     # Pure states
